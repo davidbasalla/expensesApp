@@ -1,16 +1,18 @@
 var express = require("express");
 var router = express.Router();
 
-/* GET users listing. */
+/* GET expenses listing. */
 router.get("/", function(req, res, next) {
   res.json([
     {
       id: 1,
-      username: "samsepi0l"
+      name: "Shopping",
+      amount: "9.99"
     },
     {
       id: 2,
-      username: "D0loresH4ze"
+      name: "Cleaner",
+      amount: "24.99"
     }
   ]);
 });

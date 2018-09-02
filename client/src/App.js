@@ -2,21 +2,37 @@ import React, { Component } from "react";
 import "./App.css";
 
 class App extends Component {
-  state = { users: [] };
+  state = { expenses: [] };
 
   componentDidMount() {
-    fetch("/users")
+    fetch("/expenses")
       .then(res => res.json())
-      .then(users => this.setState({ users }));
+      .then(expenses => this.setState({ expenses }));
+  }
+
+  handleSubmit(event) {
+    console.log("SUBMIT");
+    event.preventDefault();
   }
 
   render() {
     return (
       <div className="App">
-        <h1>Users</h1>
-        {this.state.users.map(user => (
-          <div key={user.id}>{user.username}</div>
+        <h1>Expenses</h1>
+
+        {this.state.expenses.map(expense => (
+          <div key={expense.id}>
+            {expense.name} £{expense.amount}
+          </div>
         ))}
+
+        <form onSubmit={this.handleSubmit} className="form">
+          <label htmlFor="name">Name:</label>
+          <input id="name" type="text" />
+          <label htmlFor="name">Amount:</label>
+          <input id="name" type="text" />
+          <input type="submit" value="Add" />
+        </form>
       </div>
     );
   }
