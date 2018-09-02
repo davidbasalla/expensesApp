@@ -5,14 +5,18 @@ var router = express.Router();
 router.get("/", function(req, res, next) {
   res.json([
     {
-      id: 1,
+      id: 0,
+      person: "Ana",
       name: "Shopping",
-      amount: "9.99"
+      amount: 9.99,
+      date: "28/07/2018"
     },
     {
-      id: 2,
+      id: 1,
+      person: "Ana",
       name: "Cleaner",
-      amount: "24.99"
+      amount: 24.99,
+      date: "01/08/2018"
     }
   ]);
 });
