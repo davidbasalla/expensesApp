@@ -1,8 +1,31 @@
 var express = require("express");
 var router = express.Router();
 
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize("davidbasalla", "davidbasalla", "", {
+  host: "localhost",
+  dialect: "postgres",
+  operatorsAliases: false,
+
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  }
+});
+
 /* GET expenses listing. */
 router.get("/", function(req, res, next) {
+  sequelize
+    .authenticate()
+    .then(() => {
+      console.log("Connection has been established successfully.");
+    })
+    .catch(err => {
+      console.error("Unable to connect to the database:", err);
+    });
+
   res.json([
     {
       id: 0,
