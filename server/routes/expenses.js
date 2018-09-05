@@ -4,26 +4,19 @@ var models = require("../models");
 
 /* GET expenses listing. */
 router.get("/", function(req, res, next) {
-  models.User.findAll().then(function(users) {
-    console.log("USERS:", users);
+  models.Expense.findAll().then(function(expenses) {
+    res.json(
+      expenses.map(e => {
+        return {
+          id: e.id,
+          person: e.person,
+          name: e.name,
+          amount: e.amount,
+          date: new Date(e.date).toLocaleDateString("en-GB")
+        };
+      })
+    );
   });
-
-  res.json([
-    {
-      id: 0,
-      person: "Ana",
-      name: "Shopping",
-      amount: 9.99,
-      date: "28/07/2018"
-    },
-    {
-      id: 1,
-      person: "Ana",
-      name: "Cleaner",
-      amount: 24.99,
-      date: "01/08/2018"
-    }
-  ]);
 });
 
 module.exports = router;
