@@ -45,16 +45,23 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const expenses = this.state.expenses;
-    expenses.push({
-      id: expenses.length,
-      person: this.state.person,
-      name: this.state.name,
-      amount: this.state.amount,
-      date: this.state.date
-    });
-
-    this.setState({ expenses: expenses });
+    const _this = this;
+    fetch("/expenses", {
+      method: "POST",
+      body: JSON.stringify({
+        person: this.state.person,
+        name: this.state.name,
+        amount: this.state.amount,
+        date: this.state.date
+      }),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(body) {
+        _this.setState({ expenses: body });
+      });
   }
 
   render() {

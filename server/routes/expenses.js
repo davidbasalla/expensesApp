@@ -19,4 +19,22 @@ router.get("/", function(req, res, next) {
   });
 });
 
+router.post("/", function(req, res, next) {
+  models.Expense.create(req.body).then(() => {
+    models.Expense.findAll().then(function(expenses) {
+      res.json(
+        expenses.map(e => {
+          return {
+            id: e.id,
+            person: e.person,
+            name: e.name,
+            amount: e.amount,
+            date: new Date(e.date).toLocaleDateString("en-GB")
+          };
+        })
+      );
+    });
+  });
+});
+
 module.exports = router;
