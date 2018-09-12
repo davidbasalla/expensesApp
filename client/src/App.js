@@ -1,23 +1,18 @@
 import React, { Component } from "react";
+
+import ExpensesList from "./app/components/ExpensesList";
+import InputFields from "./app/components/InputFields";
+
 import "./App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expenses: [],
-      person: "",
-      name: "",
-      amount: "",
-      date: ""
+      expenses: []
     };
 
-    this.handlePersonChange = this.handlePersonChange.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleAmountChange = this.handleAmountChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.setState = this.setState.bind(this);
   }
 
   componentDidMount() {
@@ -26,115 +21,12 @@ class App extends Component {
       .then(expenses => this.setState({ expenses }));
   }
 
-  handleNameChange(event) {
-    this.setState({ name: event.target.value });
-  }
-
-  handleAmountChange(event) {
-    this.setState({ amount: event.target.value });
-  }
-
-  handlePersonChange(event) {
-    this.setState({ person: event.target.value });
-  }
-
-  handleDateChange(event) {
-    this.setState({ date: event.target.value });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-
-    const _this = this;
-    fetch("/expenses", {
-      method: "POST",
-      body: JSON.stringify({
-        person: this.state.person,
-        name: this.state.name,
-        amount: this.state.amount,
-        date: this.state.date
-      }),
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(body) {
-        _this.setState({ expenses: body });
-      });
-  }
-
   render() {
     return (
       <div className="App">
         <h1>Expenses</h1>
-        <table className="center">
-          <thead>
-            <tr>
-              <th>Who</th>
-              <th>What</th>
-              <th>Amount (£)</th>
-              <th>When</th>
-              <th />
-            </tr>
-          </thead>
-
-          <tbody>
-            {this.state.expenses.map(expense => (
-              <tr key={expense.id}>
-                <td>{expense.person}</td>
-
-                <td>{expense.name}</td>
-
-                <td>{expense.amount}</td>
-
-                <td>{expense.date}</td>
-                <td>
-                  {" "}
-                  <button>Edit</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <form onSubmit={this.handleSubmit} className="form">
-          <label htmlFor="person">Who:</label>
-          <select
-            id="person"
-            value={this.state.person}
-            onChange={this.handlePersonChange}
-          >
-            <option value="Ana Paula">Ana Paula</option>
-            <option value="David">David</option>
-          </select>
-
-          <label htmlFor="name">What:</label>
-          <input
-            id="name"
-            type="text"
-            value={this.state.name}
-            onChange={this.handleNameChange}
-          />
-
-          <label htmlFor="amount">Amount:</label>
-          <input
-            id="amount"
-            type="number"
-            value={this.state.amount}
-            onChange={this.handleAmountChange}
-          />
-
-          <label htmlFor="date">When:</label>
-          <input
-            id="date"
-            type="date"
-            value={this.state.date}
-            onChange={this.handleDateChange}
-          />
-
-          <input type="submit" value="Add" />
-        </form>
+        <ExpensesList expenses={this.state.expenses} />
+        <InputFields setMainAppState={this.setState} />
       </div>
     );
   }
