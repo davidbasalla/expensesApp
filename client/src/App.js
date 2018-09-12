@@ -100,12 +100,14 @@ class App extends Component {
 
         <form onSubmit={this.handleSubmit} className="form">
           <label htmlFor="person">Who:</label>
-          <input
+          <select
             id="person"
-            type="text"
             value={this.state.person}
             onChange={this.handlePersonChange}
-          />
+          >
+            <option value="Ana Paula">Ana Paula</option>
+            <option value="David">David</option>
+          </select>
 
           <label htmlFor="name">What:</label>
           <input
